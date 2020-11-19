@@ -4,6 +4,14 @@
 
 Housing Prices Prediction is an essential element for an economy. Analysis of price ranges influence both sellers and buyers.Our project is mainly focused on prediction of prices against explanatory features that cover many aspects of houses. Also, this project creates a Linear Regression model to estimate the price of the house accurately with the given features.
 
+# To Whom
+
+Immoliza wants Belgium's House Prediction model to find and analyse the sales in Belgium.
+
+# How it Works?
+
+We have collected the data from the target source and processed for understanding, cleaning and engineering the data. Once the final data is available, we have formatted by dividing into traning set and test set for machine to learn. Then, we tranined the model using machine learning algorithm which in this case is Linear Regression. 
+
 # Objectives
 
 1. Data understanding and pre-processing
