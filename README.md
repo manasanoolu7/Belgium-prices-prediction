@@ -33,8 +33,8 @@ Housing Prices Prediction is an essential element for an economy. Analysis of pr
 
 
 # Team:
-Francesco
-Joakim
-Ankita
+Francesco<br>
+Joakim<br>
+Ankita<br>
 [Manasa](linkedin.com/in/manasanoolu)
 
