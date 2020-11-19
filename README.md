@@ -12,9 +12,9 @@ Immoliza wants Belgium's House Prediction model to find and analyse the sales in
 
 We have collected the data from the target source and processed for understanding, cleaning and engineering the data. Once the final data is available, we have formatted by dividing into traning set and test set for machine to learn. Then, we tranined the model using machine learning algorithm which in this case is Linear Regression. 
 
-# Flowchart
 
-<img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg" width="500" height="300">
+
+<img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg" width="700" height="300">
 
 
 # Objectives
