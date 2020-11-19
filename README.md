@@ -14,7 +14,7 @@ We have collected the data from the target source and processed for understandin
 
 # Flowchart
 
-![alt text](https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg)
+<img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg" width="500" height="300">
 
 
 # Objectives
