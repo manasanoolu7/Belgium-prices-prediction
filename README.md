@@ -12,6 +12,10 @@ Immoliza wants Belgium's House Prediction model to find and analyse the sales in
 
 We have collected the data from the target source and processed for understanding, cleaning and engineering the data. Once the final data is available, we have formatted by dividing into traning set and test set for machine to learn. Then, we tranined the model using machine learning algorithm which in this case is Linear Regression. 
 
+# Flowchart
+
+
+
 # Objectives
 
 1. Data understanding and pre-processing
