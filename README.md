@@ -46,8 +46,8 @@ We have collected the data from the target source and processed for understandin
 
 
 # Team:
-Francesco<br>
-Joakim<br>
-Ankita<br>
-[Manasa](linkedin.com/in/manasanoolu)
+* Francesco<br>
+* Joakim<br>
+* Ankita<br>
+* [Manasa](linkedin.com/in/manasanoolu)
 
