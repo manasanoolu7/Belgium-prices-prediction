@@ -52,7 +52,7 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 # Team:
 * [Francesco](https://be.linkedin.com/in/francescomariottini)<br>
-* Joakim<br>
+* [Joakim](https://www.linkedin.com/in/jokotek/)<br>
 * [Ankita](linkedin.com/in/ankitahaldia)<br>
 * [Manasa](linkedin.com/in/manasanoolu)
 
