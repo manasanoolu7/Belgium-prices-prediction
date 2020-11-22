@@ -42,7 +42,8 @@ We have collected the data from the target source and processed for understandin
 
 #### Inferences
 
-
+#### Date of Completion:
+23-11-2020
 
 
 # Team:
