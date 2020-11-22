@@ -21,7 +21,7 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 <img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg" width="700" height="400">
 
 
-# Objectives
+
 
 1. Data understanding and pre-processing
 2. Feature Engineeing
