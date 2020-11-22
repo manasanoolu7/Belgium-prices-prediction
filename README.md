@@ -6,7 +6,11 @@ Housing Prices Prediction is an essential element for an economy. Analysis of pr
 
 # To Whom
 
-Immoliza wants Belgium's House Prediction model to find and analyse the sales in Belgium.
+'ImmoEliza' wants Belgium's House Prediction model to find and analyse the sales in Belgium.
+
+# Objective
+
+Be able to apply a linear regression in a real context & preprocess data for Machine Learning.
 
 # How it Works?
 
