@@ -14,7 +14,7 @@ Be able to apply a linear regression in a real context & preprocess data for Mac
 
 # How it Works?
 
-We have collected the data from the target source and processed for understanding, cleaning and engineering the data. Once the final data is available, we have formatted by dividing into traning set and test set for machine to learn. Then, we tranined the model using machine learning algorithm which in this case is Linear Regression. 
+We have collected the previously scraped, pre-processed  and analysed data. We again analysed the data for null values, how to handle categorical data, which features to be considered using Feature selection process etc. Once the final data is available, we have formatted by dividing into traning set and test set for machine to learn. Then, we tranined the model using machine learning algorithm which in this case is Linear Regression. 
 
 
 
