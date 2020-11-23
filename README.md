@@ -33,6 +33,15 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 #### Feature Engineeing and Feature Selection
 
+##### Steps performed:
+
+1. Removed the features where the data was missing and irrelevant . 
+
+2. Feature selection was done mostly using the Chi-squared contingency method which gives the list of features that are irrelevant for the model , and can be     
+   removed from the dataframe. 
+   
+3. Utilising the pandas get_dummies class for one hot encoding on all the categorical columns to be used in the model.
+
 #### Linear Regression Model application
 
 #### Evaluation
