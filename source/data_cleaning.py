@@ -286,6 +286,7 @@ class DataCleaning:
         if cleaned_csv_path is None:
             cleaned_csv_path = self.cleaned_csv_path
         print(f"Initial dataset, shape: {self.df_0.shape}")
+        self.df_out = self.df_out[self.df_out.property_subtype != "MIXED_USE_BUILDING"]
         # aggregation to deal with many nan in facades_number
         self.df_out, aggregated_column_names = add_aggregated_columns(self.df_out, columns_to_replace=COLUMNS_TO_REPLACE)
         self.columns_outliers_ignore += aggregated_column_names
