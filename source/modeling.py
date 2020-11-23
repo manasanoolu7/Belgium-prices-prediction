@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import learning_curve, validation_curve
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler, RobustScaler, MinMaxScaler
 
 def OLS_linear_regression(X_train: np.ndarray, y_train: np.ndarray) -> LinearRegression:
     """
@@ -16,6 +16,25 @@ def OLS_linear_regression(X_train: np.ndarray, y_train: np.ndarray) -> LinearReg
     lin_reg = LinearRegression()
     lin_reg.fit(X_train, y_train)
     return lin_reg
+
+def OLS_linear_regression_scaled(X_train: np.ndarray, y_train: np.ndarray, scaling: str) -> Pipeline:
+    """
+    Returns a linear regression model fitted with Ordinary Least Squares method after a particular scaling
+    :param X_train: training data (features)
+    :param y_train: training target
+    :param scaling: type of scaler to be used
+    :return the fitted model
+    """
+    if scaling == 'std':
+        reg = make_pipeline(StandardScaler(), LinearRegression())
+    elif scaling == 'robust':
+        reg = make_pipeline(RobustScaler(), LinearRegression())
+    elif scaling == 'minmax':
+        reg = make_pipeline(MinMaxScaler(), LinearRegression())
+    else: #no scaling
+        reg = make_pipeline(LinearRegression())
+    reg.fit(X_train, y_train)
+    return reg
 
 def plot_OLS_lin_reg_r2_curves(X_train: np.ndarray, y_train: np.ndarray, num_cv_folds: int) -> None:
     """
