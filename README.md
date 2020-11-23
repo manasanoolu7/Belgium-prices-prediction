@@ -18,23 +18,20 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 
 
-<img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchartforMLProject.jpg" width="700" height="400">
+<img src="https://github.com/FrancescoMariottini/Belgium-prices-prediction/blob/manasa/assets/images/flowchart.png" width="700" height="400">
 
 
 
 
 1. Data understanding and pre-processing
-2. Feature Engineeing
-3. Feature Selection
-4. Linear Regression Model application
-5. Evaluation
-6. Inferences
+2. Feature Engineeing and Feature Selection
+3. Linear Regression Model 
+4. Evaluation
+5. Inferences
 
 #### Data Understanding and Pre-processing
 
-#### Feature Engineeing
-
-#### Feature Selection
+#### Feature Engineeing and Feature Selection
 
 #### Linear Regression Model application
 
