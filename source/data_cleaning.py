@@ -14,6 +14,11 @@ REAL_ESTATE_CSV_FILEPATH = os.path.join(os.getcwd(), 'data','clean_dataset.csv')
 REAL_ESTATE_SB_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_with_statbel.csv')
 CLEANED_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_after_cleaning.csv')
 
+#paths for windows users
+REAL_ESTATE_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\clean_dataset.csv"
+REAL_ESTATE_SB_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "clean_dataset.csv"
+CLEANED_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "df_after_cleaning.csv"
+
 # for terrace and garden it will be double checked if their related boolean is True when area is 0
 COLUMNS_NAN_REPLACE_WITH = {"terrace_area": 0, "garden_area": 0, "facades_number": 0}
 # for outliers detection Tukey fences are used instead of percentile due to not normal distribution
@@ -22,7 +27,8 @@ OUTLIERS_METHODS = ["fence_tukey_min", "fence_tukey_max"]  # , "5%", "95%"]
 # boolean (onlt two distinct values) are excluded automatically as not being np.numeric
 # columns with prevalent nan values (previously filled with zero) excluded:
 # garden_area, terrace_area, land_surface, facades_number
-COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area", "land_surface", "price_m_by_postcode"]
+COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area", "land_surface",
+                           "price_m_by_postcode", "latitude", "longitude"]
 # during the profiling dominant values found in equipped kitchen (true, 83.7%), furnished (False, 96.3%), Open Fire (False, 93.5%)
 # columns with a dominant value (inc. source and swimming pool) are excluded from duplicates check.
 # related boolean columns (e.g. garden_has) are also excluded.
@@ -154,7 +160,8 @@ class DataCleaning:
                  columns_outliers_ignore: List[str] = COLUMNS_OUTLIERS_IGNORE,
                  outliers_methods: List[str] = OUTLIERS_METHODS,
                  cleaned_csv_path: str = CLEANED_CSV_FILEPATH,
-                 report_html_filepath: str = REPORT_HTML_FILEPATH,
+                 property_subtype: str = None,
+                 report_html_filepath: str = REPORT_HTML_FILEPATH, #future release (profiling used for preliminary analysis)
                  ):
         """
         Initialise the data cleaning class
@@ -165,6 +172,7 @@ class DataCleaning:
         :param outliers_methods: see get_outliers_index() method
         :param cleaned_csv_path: path to create the output csv file
         :param report_html_filepath: path to create the pandas_profiling (future release)
+        :param: property_subtype: if a specific subtype have to be extracted
         :argument: df_0: original table
         :argument: df_out: modified table
         :argument: columns_with_nan: see fill_na() method
@@ -174,11 +182,12 @@ class DataCleaning:
         self.df_0: pd.DataFrame = pd.read_csv(csv_filepath)
         if csv_filepath == REAL_ESTATE_SB_CSV_FILEPATH:
             self.df_0.drop(columns='Unnamed: 0', inplace=True)
-            self.df_0 = self.df_0.drop(columns=['price_m_by_district', 'price_m_by_province', 'price_m_by_region'])
-            self.df_0 = self.df_0[self.df_0.property_subtype == "APARTMENT_BLOCK"]
+            #self.df_0 = self.df_0.drop(columns=['price_m_by_district', 'price_m_by_province', 'price_m_by_region'])
             self.df_0 = self.df_0[self.df_0.price_m_by_postcode > 0]
-        else:
+        if property_subtype is None:
             self.df_0 = self.df_0[self.df_0.property_subtype != "MIXED_USE_BUILDING"]
+        else:
+            self.df_0 = self.df_0[self.df_0.property_subtype == property_subtype]
 
         self.df_out: pd.DataFrame = self.df_0.copy(deep=True)
         self.columns_with_nan: List[str] = []
@@ -301,21 +310,23 @@ class DataCleaning:
         self.columns_outliers_ignore += aggregated_column_names
         print(f"Aggregated parameters replacing categorical ones, shape: {self.df_out.shape}")
         self.df_out, index_dropped = self.drop_duplicates()
-        #fill nan after replacing facades_number with grouping
+        #fill nan after replacing facades_number with grouping to avoid modelling issues
         self.df_out = self.fill_na(self.df_out)
         print(f"{len(index_dropped)} Dropped duplicates, shape: {self.df_out.shape}")
         df_outliers = self.get_outliers()
-        #self.df_out, index_dropped = self.drop_outliers()
+        #self.df_out, index_dropped = self.drop_outliers() #not dropping won't affect too much the accuracy
         #print(f"{len(index_dropped)} Dropped outliers, shape: {self.df_out.shape}")
         if cleaned_csv_path is not None:
             self.df_out.to_csv(cleaned_csv_path)
         return self.df_out, df_outliers
 
 
-#TESTING (to exclude when running Jupyter NB)
+#TESTING ON WINDOWS (to exclude as comment when running Jupyter NB)
 """
-dc = DataCleaning(csv_filepath = REAL_ESTATE_SB_CSV_FILEPATH)
-df, df_outliers = dc.get_cleaned_dataframe()
+dc = DataCleaning(csv_filepath = REAL_ESTATE_CSV_FILEPATH_WIN, #REAL_ESTATE_SB_CSV_FILEPATH_WIN
+                    property_subtype = None #APARTMENT_BLOCK
+                  )
+df, df_outliers = dc.get_cleaned_dataframe(cleaned_csv_path = CLEANED_CSV_FILEPATH_WIN)
 print(df_outliers)
 print(df.info())
 print(describe_with_tukey_fences(df))

@@ -31,6 +31,8 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 #### Data Pre-processing and Cleaning"
 Originally all object values were converted into numerical (through aggregated values) but then kept as object to allow easier filtering within "Feature Engineeing and Feature Selection" module.
+To improve the data quality (and model), median price by postcode was extracted from historical sales data (statbel) combined with postcodes information.
+Later latitude and longitude were added as features for the *apartments* analysis.
 
 ##### Steps performed:
 1. Aggregated parameter columns created for categorical values and for facades number (based on building subtype). 
