@@ -6,7 +6,7 @@ Housing Prices Prediction is an essential element for an economy. Analysis of pr
 
 # To Whom
 
-'ImmoEliza' wants Belgium's House Prediction model to find and analyse the sales in Belgium.
+['ImmoEliza'](https://immoelissa.be/) wants Belgium's House Prediction model to find and analyse the sales in Belgium.
 
 # Objective
 
@@ -41,6 +41,9 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 3. Utilising the pandas get_dummies class for one hot encoding on all the categorical columns to be used in the model.
 
 #### Linear Regression Model application
+
+We have started with ordinary least squares(OLS) using scikit's Linear Regression class on the dataset and observed that results are not so bad.Later tried applying polynomial regrssion using 5-fold cross-validation with degree 2 was better than linear regression (degree 1
+) but was worse for degree 3 and higher. Then, we cleaned the data again with more features and applied polynomial regression with degree 2 itself. It is observed that for this dataset, simple linear regression is the best choise and we have applied.
 
 #### Evaluation
 
