@@ -62,6 +62,9 @@ We have applied Regression metrics like Mean Absolute Error, Mean Squared Error,
 
 #### Inferences
 
+A more complete datase is expected to improve the model accuracy (e.g. there are not enough representative values for some postcodes).
+That would also allow a better selection of features.
+
 #### Date of Completion:
 24-11-2020
 
