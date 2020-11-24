@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from tabulate import tabulate
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
@@ -51,13 +52,15 @@ class Model_Evaluation:
 
         plt.subplot(1, 2, 1)
         # display plots
-        plt.title('Actual vs Predicted Data')
-        plt.scatter(y_test, ytest_predictions)
+        plt.title('Actual vs Predicted Data\n')
+        plt.scatter(y_test, ytest_predictions, c=np.arange(len(y_test)),cmap='Blues')
 
         plt.xlabel('Predicted')
         plt.ylabel('Actual')
 
         plt.subplot(1, 2, 2)
-        plt.title('Residuals Distribution Plot')
+        plt.title('Residuals Distribution Plot\n')
         # histogram of the residuals. It tells how well the residuals are distributed from proposed model
-        plt.hist(y_test - ytest_predictions)
+        sns.distplot(y_test - ytest_predictions)
+        plt.tight_layout()
+        plt.show()

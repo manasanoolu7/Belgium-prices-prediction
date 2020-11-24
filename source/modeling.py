@@ -122,12 +122,12 @@ def plot_poly_reg_validation_curves(X_train: np.ndarray, y_train: np.ndarray, nu
     valid_scores_mean = np.mean(valid_scores, axis=1)
     valid_scores_std = np.std(valid_scores, axis=1)
 
-    plt.plot(degree_range, train_scores_mean, color="darkorange", marker='o', linestyle='--', label= 'Training score')
+    plt.plot(degree_range, train_scores_mean, color="darkred", marker='o', linestyle='--', label= 'Training score')
     plt.fill_between(degree_range, train_scores_mean - train_scores_std,
-        train_scores_mean + train_scores_std, alpha=0.2, color="darkorange")
-    plt.plot(degree_range, valid_scores_mean, color="navy",   marker='o', linestyle='--', label='Cross-validation score')
+        train_scores_mean + train_scores_std, alpha=0.2, color="darkred")
+    plt.plot(degree_range, valid_scores_mean, color="seagreen",   marker='o', linestyle='--', label='Cross-validation score')
     plt.fill_between(degree_range, valid_scores_mean - valid_scores_std,
-        valid_scores_mean + valid_scores_std, alpha=0.2, color="navy")
+        valid_scores_mean + valid_scores_std, alpha=0.2, color="seagreen")
     plt.xticks(degree_range)
     plt.xlabel('Polynomial Regression Degree')
     plt.ylabel('R² Score')
