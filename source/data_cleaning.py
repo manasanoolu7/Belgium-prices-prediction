@@ -21,7 +21,7 @@ OUTLIERS_METHODS = ["fence_tukey_min", "fence_tukey_max"]  # , "5%", "95%"]
 # boolean (onlt two distinct values) are excluded automatically as not being np.numeric
 # columns with prevalent nan values (previously filled with zero) excluded:
 # garden_area, terrace_area, land_surface, facades_number
-COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area"]
+COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area", "land_surface"]
 # during the profiling dominant values found in equipped kitchen (true, 83.7%), furnished (False, 96.3%), Open Fire (False, 93.5%)
 # columns with a dominant value (inc. source and swimming pool) are excluded from duplicates check.
 # related boolean columns (e.g. garden_has) are also excluded.
@@ -94,7 +94,7 @@ def get_outliers_index(df: pd.DataFrame, outliers_methods: List[str] = OUTLIERS_
     """
     df_desc: pd.DataFrame = describe_with_tukey_fences(df)
     columns = [c for c in df_desc.columns if c not in columns_outliers_ignore]
-    df_outliers = pd.DataFrame(columns=["column", "method", "type", "count", "%", "index"])
+    df_outliers = pd.DataFrame(columns=["column", "method", "type", "count", "%", "first_outlier", "index"])
     for c in columns:
         t_min, t_max, p95, p94, p06, p05 = df_desc.loc[
             ["fence_tukey_min", "fence_tukey_max", "95%", "94%", "6%", "5%"], c]
@@ -173,7 +173,7 @@ class DataCleaning:
         self.df_out: pd.DataFrame = self.df_0.copy(deep=True)
         self.columns_with_nan: List[str] = []
         self.index_removed_by_process: Dict[str, List] = {}
-        self.outliers = pd.DataFrame(columns=["column", "method", "count", "%", "index"])
+        self.outliers = pd.DataFrame(columns=["column", "method", "count", "%", "first_outlier", "index"])
 
         self.columns_nan_replace_with = columns_nan_replace_with
         self.columns_duplicates_check = columns_duplicates_check
