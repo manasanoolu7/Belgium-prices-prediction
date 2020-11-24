@@ -6,7 +6,7 @@ Housing Prices Prediction is an essential element for an economy. Analysis of pr
 
 # To Whom
 
-'ImmoEliza' wants Belgium's House Prediction model to find and analyse the sales in Belgium.
+['ImmoEliza'](https://immoelissa.be/) wants Belgium's House Prediction model to find and analyse the sales in Belgium.
 
 # Objective
 
@@ -23,13 +23,13 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 
 
-1. Data understanding and pre-processing
+1. Data Pre-processing and Cleaning
 2. Feature Engineeing and Feature Selection
 3. Linear Regression Model 
 4. Evaluation
 5. Inferences
 
-#### Data Understanding and Pre-processing
+#### Data Pre-processing and Cleaning
 
 #### Feature Engineeing and Feature Selection
 
@@ -42,11 +42,15 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 #### Linear Regression Model application
 
+We have started with ordinary least squares(OLS) using scikit's Linear Regression class on the dataset and observed that results are not so bad.Later tried applying polynomial regrssion using 5-fold cross-validation with degree 2 was better than linear regression (degree 1
+) but was worse for degree 3 and higher. Then, we cleaned the data again with more features and applied polynomial regression with degree 2 itself. It is observed that for this dataset, simple linear regression is the best choise and we have applied.
+
 #### Evaluation
 
-* How could you improve this result?
-* Which part of the process it have the more impact on the results?
-* How should you divide your time working on this kind of project?
+Model evaluation is an essential part in machine learning process. It describes how well the model is performing in its predictions. Evaluation metrics changes according to the problem definition. The errors represents the variation of faults in its predictions. Thus, it becomes important to compare actual target with the predicted one. 
+
+We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. 
+
 
 #### Inferences
 
