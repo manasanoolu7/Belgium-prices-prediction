@@ -45,8 +45,8 @@ class Model_Evaluation:
         train_score = r2_score(y_train, ytrain_predictions)
         test_score = r2_score(y_test, ytest_predictions)
 
-        Results = pd.DataFrame({'MAE': mae, 'MSE': mse, 'RMSE': rmse, 'Train_RSquare': train_score,
-                                'Test_RSquare': test_score}, index=['Values'])
+        Results = pd.DataFrame({'MAE': mae, 'MSE': mse, 'RMSE': rmse,
+                                'Train_RSquare': train_score, 'Test_RSquare': test_score}, index=['Values'])
         print('Evaluation Metrics')
         print(tabulate(Results, headers='keys', tablefmt='fancy_grid'))
 
