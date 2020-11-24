@@ -29,7 +29,15 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 4. Evaluation
 5. Inferences
 
-#### Data Pre-processing and Cleaning
+#### Data Pre-processing and Cleaning"
+Originally all object values were converted into numerical (through aggregated values) but then kept as object to allow easier filtering within "Feature Engineeing and Feature Selection" module.
+
+##### Steps performed:
+1. Aggregated parameter columns created for categorical values and for facades number (based on building subtype). 
+2. Filling Not_a_Number with zeros
+3. Outliers identification using Tukey fences due right-skewed distribution
+
+Postcode was replaced by median price obtained from the official belgian statistics in a dedicated dataset (see data folder).
 
 #### Feature Engineeing and Feature Selection
 
@@ -55,7 +63,7 @@ We have applied Regression metrics like Mean Absolute Error, Mean Squared Error,
 #### Inferences
 
 #### Date of Completion:
-23-11-2020
+24-11-2020
 
 
 # Team:
