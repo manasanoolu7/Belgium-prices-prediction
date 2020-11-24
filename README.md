@@ -61,9 +61,10 @@ We have applied Regression metrics like Mean Absolute Error, Mean Squared Error,
 
 
 #### Inferences
+1. Could have more real statistical data and new features like construction year.
+2. Feature selection also plays important role in deciding the most prominent features to increase the accuracy.
+3. Better correlation found using a subset but no time to explore.
 
-A more complete datase is expected to improve the model accuracy (e.g. there are not enough representative values for some postcodes).
-That would also allow a better selection of features.
 
 #### Date of Completion:
 24-11-2020
