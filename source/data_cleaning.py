@@ -305,8 +305,8 @@ class DataCleaning:
         self.df_out = self.fill_na(self.df_out)
         print(f"{len(index_dropped)} Dropped duplicates, shape: {self.df_out.shape}")
         df_outliers = self.get_outliers()
-        self.df_out, index_dropped = self.drop_outliers()
-        print(f"{len(index_dropped)} Dropped outliers, shape: {self.df_out.shape}")
+        #self.df_out, index_dropped = self.drop_outliers()
+        #print(f"{len(index_dropped)} Dropped outliers, shape: {self.df_out.shape}")
         if cleaned_csv_path is not None:
             self.df_out.to_csv(cleaned_csv_path)
         return self.df_out, df_outliers
