@@ -18,34 +18,3 @@ def replace_null( df: pd.DataFrame,
     ...
     return df_no_null
 ```
-
-### TASK LEADERS
-FM
-data cleaning
-IN df
-OUT df2
-Ppt: data cleaning issues and how solved (mainly txt)
-
-AH
-Text to Number conversion & Features
-IN: df2
-OUT: X_train, y_train
-PPT: Features engineering, Used methods description (text)
-
-JK
-model selection & apply
-IN: X_train, y_train
-OUT: scikit ??
-(info how to extract dict of parameters)
-PPT: Gradient descent, Validation curve, Learning curve
-
-MD
-Model evaluation 
-IN: scikit, df, 
-OUT 
-PPT Root mean square error, table
-
-
-
-
-
