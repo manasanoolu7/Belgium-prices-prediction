@@ -31,6 +31,8 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 
 #### Data Pre-processing and Cleaning"
 Originally all object values were converted into numerical (through aggregated values) but then kept as object to allow easier filtering within "Feature Engineeing and Feature Selection" module.
+To improve the data quality (and model), median price by postcode was extracted from historical sales data (statbel) combined with postcodes information.
+Later latitude and longitude were added as features for the *apartments* analysis.
 
 ##### Steps performed:
 1. Aggregated parameter columns created for categorical values and for facades number (based on building subtype). 
@@ -57,14 +59,13 @@ We have started with ordinary least squares(OLS) using scikit's Linear Regressio
 
 Model evaluation is an essential part in machine learning process. It describes how well the model is performing in its predictions. Evaluation metrics changes according to the problem definition. The errors represents the variation of faults in its predictions. Thus, it becomes important to compare actual target with the predicted one. 
 
-We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. Our model gives variation of 64% which is good enough by checking the residuals error distribution.
+We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. 
 
 
 #### Inferences
-1. Could have more real statistical data and new features like construction year.
-2. Feature selection also plays important role in deciding the most prominent features to increase the accuracy.
-3. Better correlation found using a subset but no time to explore.
 
+A more complete datase is expected to improve the model accuracy (e.g. there are not enough representative values for some postcodes).
+That would also allow a better selection of features.
 
 #### Date of Completion:
 24-11-2020
