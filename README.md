@@ -57,7 +57,7 @@ We have started with ordinary least squares(OLS) using scikit's Linear Regressio
 
 Model evaluation is an essential part in machine learning process. It describes how well the model is performing in its predictions. Evaluation metrics changes according to the problem definition. The errors represents the variation of faults in its predictions. Thus, it becomes important to compare actual target with the predicted one. 
 
-We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. 
+We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. Our model gives variation of 64% which is good enough by checking the residuals error distribution.
 
 
 #### Inferences
