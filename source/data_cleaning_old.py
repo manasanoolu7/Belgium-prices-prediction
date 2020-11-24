@@ -10,9 +10,8 @@ pd.options.display.max_rows = 20
 pd.options.display.max_columns = None
 
 """DEFAULT VALUES SETUP"""
-REAL_ESTATE_CSV_FILEPATH = os.path.join(os.getcwd(), 'data','clean_dataset.csv')
-REAL_ESTATE_SB_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_with_statbel.csv')
-CLEANED_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_after_cleaning.csv')
+REAL_ESTATE_CSV_FILEPATH = os.path.dirname(os.getcwd()) + r"\data" + "\clean_dataset.csv"
+CLEANED_CSV_FILEPATH = os.path.dirname(os.getcwd()) + "\\assets" + "\\outputs" + "\\df_after_cleaning.csv"
 
 # for terrace and garden it will be double checked if their related boolean is True when area is 0
 COLUMNS_NAN_REPLACE_WITH = {"terrace_area": 0, "garden_area": 0, "facades_number": 0}
@@ -22,7 +21,7 @@ OUTLIERS_METHODS = ["fence_tukey_min", "fence_tukey_max"]  # , "5%", "95%"]
 # boolean (onlt two distinct values) are excluded automatically as not being np.numeric
 # columns with prevalent nan values (previously filled with zero) excluded:
 # garden_area, terrace_area, land_surface, facades_number
-COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area", "land_surface", "price_m_by_postcode"]
+COLUMNS_OUTLIERS_IGNORE = ["facades_number", "garden_area", "postcode", "source", "terrace_area", "land_surface"]
 # during the profiling dominant values found in equipped kitchen (true, 83.7%), furnished (False, 96.3%), Open Fire (False, 93.5%)
 # columns with a dominant value (inc. source and swimming pool) are excluded from duplicates check.
 # related boolean columns (e.g. garden_has) are also excluded.
@@ -33,7 +32,7 @@ COLUMNS_DUPLICATES_CHECK = ["postcode", "house_is", "property_subtype", "price",
 # aggregation for median price was based on related available official statistics (statbel)
 # building_state_agg not available in statbel but could maybe retrieved in a different way
 # e.g. distinction between old and new buildings
-COLUMNS_GROUPED_BY = {"facades_number": "property_subtype"} #not neeeded by Ankita: "price":"property_subtype", "price":"region"}  "price":"building_state_agg"}
+COLUMNS_GROUPED_BY = {"facades_number": "property_subtype", "price":"property_subtype", "price":"region", "price":"building_state_agg"}
 COLUMNS_TO_REPLACE = ["facades_number"]
 GROUPBY_AGGREGATORS = [np.median]  # [min,max,np.mean,np.median,len]
 AGGREGATOR_COLUMNS = {min: "min", max: "max", np.mean: "mean", np.median: "median", len: "len"}
@@ -143,7 +142,6 @@ def add_aggregated_columns(df: pd.DataFrame, group_parameters: Dict[str, str] = 
     # drop at the end so order in group_parameters not important
     if columns_to_replace is not None:
         df.drop(labels=[c for c in columns_to_replace], axis=1, inplace=True)
-        df.rename(columns={'property_subtype_median_facades_number': "facades_number"}, inplace=True) #24/11/20 fast fix
     return df, column_names
 
 class DataCleaning:
@@ -154,7 +152,7 @@ class DataCleaning:
                  columns_outliers_ignore: List[str] = COLUMNS_OUTLIERS_IGNORE,
                  outliers_methods: List[str] = OUTLIERS_METHODS,
                  cleaned_csv_path: str = CLEANED_CSV_FILEPATH,
-                 report_html_filepath: str = REPORT_HTML_FILEPATH,
+                 report_html_filepath: str = REPORT_HTML_FILEPATH
                  ):
         """
         Initialise the data cleaning class
@@ -172,14 +170,6 @@ class DataCleaning:
         :argument: outliers: see get_outliers() method
         """
         self.df_0: pd.DataFrame = pd.read_csv(csv_filepath)
-        if csv_filepath == REAL_ESTATE_SB_CSV_FILEPATH:
-            self.df_0.drop(columns='Unnamed: 0', inplace=True)
-            self.df_0 = self.df_0.drop(columns=['price_m_by_district', 'price_m_by_province', 'price_m_by_region'])
-            self.df_0 = self.df_0[self.df_0.property_subtype == "APARTMENT_BLOCK"]
-            self.df_0 = self.df_0[self.df_0.price_m_by_postcode > 0]
-        else:
-            self.df_0 = self.df_0[self.df_0.property_subtype != "MIXED_USE_BUILDING"]
-
         self.df_out: pd.DataFrame = self.df_0.copy(deep=True)
         self.columns_with_nan: List[str] = []
         self.index_removed_by_process: Dict[str, List] = {}
@@ -192,7 +182,7 @@ class DataCleaning:
         self.cleaned_csv_path = cleaned_csv_path
 
         # not used yet
-        #self.report_html_filepath = report_html_filepath
+        self.report_html_filepath = report_html_filepath
 
     def fill_na(self, df_before: pd.DataFrame = None,
                 columns_nan_replace_with: Dict[str, int] = None,
@@ -296,28 +286,29 @@ class DataCleaning:
         if cleaned_csv_path is None:
             cleaned_csv_path = self.cleaned_csv_path
         print(f"Initial dataset, shape: {self.df_0.shape}")
+        self.df_out = self.df_out[self.df_out.property_subtype != "MIXED_USE_BUILDING"]
         # aggregation to deal with many nan in facades_number
         self.df_out, aggregated_column_names = add_aggregated_columns(self.df_out, columns_to_replace=COLUMNS_TO_REPLACE)
         self.columns_outliers_ignore += aggregated_column_names
         print(f"Aggregated parameters replacing categorical ones, shape: {self.df_out.shape}")
-        self.df_out, index_dropped = self.drop_duplicates()
+        df_out, index_dropped = self.drop_duplicates()
         #fill nan after replacing facades_number with grouping
-        self.df_out = self.fill_na(self.df_out)
+        df_out = self.fill_na(self.df_out)
         print(f"{len(index_dropped)} Dropped duplicates, shape: {self.df_out.shape}")
         df_outliers = self.get_outliers()
-        self.df_out, index_dropped = self.drop_outliers()
+        df_out, index_dropped = self.drop_outliers()
         print(f"{len(index_dropped)} Dropped outliers, shape: {self.df_out.shape}")
         if cleaned_csv_path is not None:
-            self.df_out.to_csv(cleaned_csv_path)
-        return self.df_out, df_outliers
+            df_out.to_csv(cleaned_csv_path)
+        return df_out, df_outliers
 
 
 #TESTING (to exclude when running Jupyter NB)
 """
-dc = DataCleaning(csv_filepath = REAL_ESTATE_SB_CSV_FILEPATH)
+dc = DataCleaning()
 df, df_outliers = dc.get_cleaned_dataframe()
+df = df.select_dtypes(exclude=['object'])
 print(df_outliers)
 print(df.info())
 print(describe_with_tukey_fences(df))
 """
-
