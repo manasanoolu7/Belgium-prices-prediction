@@ -22,7 +22,7 @@ We have collected the previously scraped, pre-processed  and analysed data. We a
 2. Feature Engineeing and Feature Selection
 3. Linear Regression Model 
 4. Evaluation
-5. Inferences
+
 
 #### Data Pre-processing and Cleaning"
 Originally all object values were converted into numerical (through aggregated values) but then kept as object to allow easier filtering within "Feature Engineeing and Feature Selection" module.
