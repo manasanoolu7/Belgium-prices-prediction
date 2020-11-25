@@ -62,6 +62,9 @@ Model evaluation is an essential part in machine learning process. It describes 
 
 We have applied Regression metrics like Mean Absolute Error, Mean Squared Error, Mean Absolute Percentage Error and R-squared. R-squared is a statistical measure of how close the data to the fitted line. The higher the R-squared, the better the model fits the data. 
 
+#### Inferences 
+When considering all type of buildings, Test_RSquare increases from 0.47 to 0.51 when including the additional features (median price, latitude and longitude by postcode).
+When considering only apartments, Test_RSquare decreases from  0.72 to 0.69 when including the additional features (median price, latitude and longitude by postcode).
 
 #### Conclusions
 Complete dataset with more data and variables ( new features) could improve the model effectiveness. 
