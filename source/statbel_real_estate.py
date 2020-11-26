@@ -24,35 +24,40 @@ STATBEL_REAL_ESTATE_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "d
 # 2) if not abovementioned feature not used, still could be compared with predicted modelled results
 STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "data", "statbel date facades surface_range price_median and selling by municipality.csv")
 MUNICIPALITIES_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "data", "zipcode-belgium.csv")
-CLEANED_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "assets", "outputs", "df_with_statbel.csv")
+MERGED_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "assets", "outputs", "df_with_statbel.csv")
+MERGED_APARTMENTS_CSV_FILEPATH = os.path.join(os.path.dirname(os.getcwd()), "assets", "outputs", "df_with_statbel_apartments.csv")
 SURFACE_COLUMN = "Superficie du terrain"
 SURFACE_RANGE_EXCLUDED = "Superficie inconnue"
 SURFACE_RANGE = {"0-99m²":[0,99], "100-299m²":[100,299], "300-599m²":[300,599],
                  "600-999m²":[600,999], "1000-1499m²":[1000,1499], ">=1500m²":[1500,9999]}
+PROPERTY_SUBTYPES = {"APARTMENT_BLOCK": "Appartements"}
 
 #paths for windows users
 REAL_ESTATE_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\clean_dataset.csv"
 STATBEL_REAL_ESTATE_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\statbel date facades price_median and selling by municipality.csv"
 STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\statbel date facades surface_range price_median and selling by municipality.csv"
 MUNICIPALITIES_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\zipcode-belgium.csv"
-CLEANED_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "df_after_cleaning.csv"
+MERGED_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "\df_with_statbel.csv"
+MERGED_APARTMENTS_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "\df_with_statbel_apartments.csv"
 
 def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEPATH,
              municipalities_csv_filepath: str = MUNICIPALITIES_CSV_FILEPATH,
              real_estate_csv_filepath: str = REAL_ESTATE_CSV_FILEPATH,
-             building_type: str = None):
+             property_subtype: str = None):
     """
     Function adding postcode price (plus latitude and longitude) to the original dataframe by combing with other datasets
     :param statbel_csv_filepath: filepath to the extracted official real estate statistics
     :param municipalities_csv_filepath: filepath to the file matching municipalities and postcodes
     :param real_estate_csv_filepath: filepath to the scrapped real estate csv file
-    :param building_type: building type to be filtered out
+    :param property_subtype: building type to be filtered out
 
     :return:
     """
     if (statbel_csv_filepath == STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH or
         statbel_csv_filepath == STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH_WIN):
         surface_column = True
+    else:
+        surface_column = False
 
     real_estate_0 = pd.read_csv(real_estate_csv_filepath)
     real_estate_out = real_estate_0.copy(deep=True)
@@ -70,16 +75,16 @@ def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEP
     #fill na to avoid zeros later
     statbel.fillna(0, inplace=True)
 
-    statbel_columns = ["region_sb", "province", "district", "municipality", "year", "building_type", "price_median",
+    statbel_columns = ["region_sb", "province", "district", "municipality", "year", "property_subtype", "price_median",
                        "sellings"]
     if surface_column:
-        statbel_columns = ["province", "district", "municipality", "year", "building_type", "surface_range",
+        statbel_columns = ["province", "district", "municipality", "year", "property_subtype", "surface_range",
                            "price_median", "sellings"]
 
     statbel.rename(columns=dict(zip(statbel.columns, statbel_columns)), inplace=True)
 
-    if building_type is not None:
-        statbel =  statbel[statbel.building_type == building_type]
+    if property_subtype is not None:
+        statbel =  statbel[statbel.property_subtype == PROPERTY_SUBTYPES["APARTMENT_BLOCK"]]
 
     if surface_column:
         statbel = statbel[statbel.surface_range != SURFACE_RANGE_EXCLUDED]
@@ -94,9 +99,9 @@ def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEP
     statbel_pc = municipalities.merge(statbel, on='municipality', how='left')
     #saving complete file before manipulation
 
-    by_columns = ["postcode"]
+    by_columns = "postcode"
     if surface_column:
-        by_columns = [["postcode", "surface_range"]]
+        by_columns = ["postcode", "surface_range"]
 
     sb_postcode = statbel_pc.loc[:, ['postcode', 'pm_per_s', 'sellings', 'latitude', 'longitude']].groupby(by=by_columns).agg(
         {'pm_per_s': sum, 'sellings':sum, 'latitude':np.median, 'longitude': np.median})
@@ -115,7 +120,7 @@ def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEP
     # filtering valid values before removing duplicates after
     statbel_pc = statbel_pc[statbel_pc.pm_per_s > 0]
     # after grouping only location-related columns are kept in statbel_pc before merging with results
-    statbel_pc = statbel_pc.drop(columns=["municipality", "year", "building_type", "price_median", "sellings", "pm_per_s"])
+    statbel_pc = statbel_pc.drop(columns=["municipality", "year", "property_subtype", "price_median", "sellings", "pm_per_s"])
     statbel_pc.drop_duplicates(inplace=True)
 
     out_columns = ["postcode", "price_m_by_postcode", "latitude", "longitude" ] # "price_m_by_district", "price_m_by_province", "price_m_by_region"]
@@ -123,7 +128,9 @@ def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEP
         out_columns += "surface_range"
 
     real_estate_out = real_estate_out.merge(statbel_pc.loc[:, out_columns], on='postcode', how='left')
-
+    real_estate_out = real_estate_out[real_estate_out.property_subtype == property_subtype]
+    #drop nan when price_m_by_postcode not available
+    real_estate_out.dropna(axis=0, subset=["price_m_by_postcode"], inplace=True)
     return real_estate_out
 
 
@@ -133,14 +140,16 @@ def add_postcode_price(statbel_csv_filepath: str = STATBEL_REAL_ESTATE_CSV_FILEP
 
 
 #TESTING ON WINDOWS (to exclude as comment when running Jupyter NB)
-"""
-df = add_postcode_price(statbel_csv_filepath= STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH_WIN, #STATBEL_REAL_ESTATE_CSV_FILEPATH_WIN,
+
+df = add_postcode_price(statbel_csv_filepath= STATBEL_REAL_ESTATE_CSV_FILEPATH_WIN, #STATBEL_REAL_ESTATE_BY_SURFACE_CSV_FILEPATH_WIN,
                         municipalities_csv_filepath = MUNICIPALITIES_CSV_FILEPATH_WIN,
                         real_estate_csv_filepath = REAL_ESTATE_CSV_FILEPATH_WIN,
+                        property_subtype = "APARTMENT_BLOCK"
                         )
 
-df.to_csv(CLEANED_CSV_FILEPATH)
-"""
+df.to_csv(MERGED_APARTMENTS_CSV_FILEPATH_WIN)
+
+
 #INTERNAL CONSIDERATION
 #Index price overs year could have been better but influence expected to be not so high anyway
 

@@ -12,11 +12,13 @@ pd.options.display.max_columns = None
 """DEFAULT VALUES SETUP"""
 REAL_ESTATE_CSV_FILEPATH = os.path.join(os.getcwd(), 'data','clean_dataset.csv')
 REAL_ESTATE_SB_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_with_statbel.csv')
+REAL_ESTATE_SB_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_with_statbel_apartments.csv')
 CLEANED_CSV_FILEPATH = os.path.join(os.getcwd(), 'assets', 'outputs', 'df_after_cleaning.csv')
 
 #paths for windows users
 REAL_ESTATE_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\data" + "\clean_dataset.csv"
-REAL_ESTATE_SB_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "clean_dataset.csv"
+REAL_ESTATE_SB_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "df_with_statbel.csv"
+REAL_ESTATE_SB_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "df_with_statbel_apartments.csv"
 CLEANED_CSV_FILEPATH_WIN = os.path.dirname(os.getcwd()) + r"\assets" + r"\outputs" + "df_after_cleaning.csv"
 
 # for terrace and garden it will be double checked if their related boolean is True when area is 0
@@ -180,10 +182,6 @@ class DataCleaning:
         :argument: outliers: see get_outliers() method
         """
         self.df_0: pd.DataFrame = pd.read_csv(csv_filepath)
-        if csv_filepath == REAL_ESTATE_SB_CSV_FILEPATH:
-            self.df_0.drop(columns='Unnamed: 0', inplace=True)
-            #self.df_0 = self.df_0.drop(columns=['price_m_by_district', 'price_m_by_province', 'price_m_by_region'])
-            self.df_0 = self.df_0[self.df_0.price_m_by_postcode > 0]
         if property_subtype is None:
             self.df_0 = self.df_0[self.df_0.property_subtype != "MIXED_USE_BUILDING"]
         else:
@@ -302,8 +300,6 @@ class DataCleaning:
         :return df_out: cleaned table
         :return df_outliers: information about the outliers
         """
-        if cleaned_csv_path is None:
-            cleaned_csv_path = self.cleaned_csv_path
         print(f"Initial dataset, shape: {self.df_0.shape}")
         # aggregation to deal with many nan in facades_number
         self.df_out, aggregated_column_names = add_aggregated_columns(self.df_out, columns_to_replace=COLUMNS_TO_REPLACE)
