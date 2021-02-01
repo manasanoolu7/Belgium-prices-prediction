@@ -85,7 +85,8 @@ However a few possible improvements are hereby suggested:
 
 # Team:
 * [Francesco](https://be.linkedin.com/in/francescomariottini)<br>
+* [Manasa](linkedin.com/in/manasanoolu)
 * [Joachim](https://www.linkedin.com/in/jokotek/)<br>
 * [Ankita](linkedin.com/in/ankitahaldia)<br>
-* [Manasa](linkedin.com/in/manasanoolu)
+
 
